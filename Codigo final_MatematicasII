@@ -1,0 +1,83 @@
+% Plantilla del informe de la Parte 1 (Unidad 1) - Proyecto integrador
+% Compilar con: pdflatex -> biber -> pdflatex -> pdflatex (o latexmk -pdf)
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber]{biblatex}
+\DeclareLanguageMapping{spanish}{spanish-apa}
+\addbibresource{referencias.bib}
+\usepackage{booktabs,longtable,array}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{parskip}
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+
+% ---------------- PORTADA ----------------
+\begin{titlepage}
+\centering
+\singlespacing
+\vspace*{2cm}
+{\bfseries Proyecto Integrador\par}
+\vspace{1.5cm}
+Equipo N.$^{\circ}$ \_1\_\ \\
+Integrantes: Mateo Gonzalez, Jhanine Toledo, Mayerli Moreno, Dulce Barreto\\[1cm]
+Carrera de Ingenier\'ia Ambiental, Universidad Nacional de Loja\\
+Matemáticas II \\
+Docente: Carlos Guillermo Chuncho Morocho\\[1cm]
+Octubre de 2026
+\end{titlepage}
+
+% ---------------- RESUMEN ----------------
+\section*{Resumen}
+\singlespacing
+Este proyecto aborda el relieve de la zona norte del cantón Loja, donde una ventana de estudio de 10\,$\times$\,10~km presenta un desnivel de 1\,643 a 3\,292~m s.\,n.\,m. La topografía condiciona la humedad del combustible y la propagación de incendios forestales, pero la base FIRELAB-Loja entrega la elevación de forma discreta, una media por celda de 500~m, sin una descripción continua del perfil. Se pregunta cuál es el área de sección transversal del relieve en un transecto oeste–este y en qué medida las sumas de Riemann coinciden con el Teorema Fundamental del Cálculo. La hipótesis plantea que un modelo continuo con $R^2\ge0{,}90$ reproduce el área trapezoidal con una diferencia menor al 5\,\%. El objetivo general es calcular dicha área con la elevación media ALOS y comparar ambos métodos.
+\doublespacing
+\newpage
+
+% ---------------- 1. INTRODUCCION ----------------
+\section{Introducci\'on y contexto}
+El proyecto se titula \textit{Cálculo integral del perfil topográfico oeste–este en la zona norte de Loja} y se desarrolla en el cantón Loja, al sur del Ecuador, que ocupa unos 1\,928~km$^2$ y combina territorio agrícola (31\,\%), remanentes de bosque nativo (26\,\%), matorral (17\,\%), pastizal (13\,\%) y páramo (7\,\%) \parencite{reyes2022}. El trabajo se apoya en la base territorial FIRELAB-Loja \parencite{firelab2025}, cuya unidad de observación es una celda de 500\,m\,$\times$\,500\,m (25~ha). El equipo trabaja con la base de \textbf{relieve y accesibilidad de la zona norte}: una ventana de estudio de $20\times20$ celdas (10\,$\times$\,10~km, 400 registros) que presenta un desnivel de 1\,643 a 3\,292~m s.\,n.\,m. según la elevación media ALOS de cada celda. Los resultados describen únicamente esta ventana y no todo el cantón.
+% ---------------- 2. PROBLEMA ----------------
+\section{Planteamiento del problema}
+La topografía es uno de los cuatro factores básicos que intervienen en la ocurrencia de incendios forestales, junto con el clima, la cobertura vegetal y la actividad humana, y se caracteriza mediante la altitud, la pendiente y la orientación del terreno \parencite{reyes2022}. En el cantón Loja el principal riesgo natural es el aumento de incendios forestales en los meses más secos; en 2020 la provincia registró más de 100 eventos, equivalentes a entre el 13\,\% y el 39\,\% de la superficie quemada del país \parencite{reyes2022}. Además, el único mapa oficial de riesgo disponible es estático y se basa en criterios subjetivos \parencite{reyes2022}.
+ 
+En la ventana norte, el relieve cambia más de 1\,600~m en solo 10~km, con cuencas bajas cercanas a cumbres orográficas. Sin embargo, la base entrega la elevación de manera \textbf{discreta}, una media por celda cada 500~m, y no una descripción continua del perfil. Esto impide cuantificar de forma integrada cuánto relieve atraviesa un transecto, es decir, el área de su sección transversal, y verificar si la aproximación por sumas de Riemann es consistente con el cálculo exacto mediante el Teorema Fundamental del Cálculo. Se requiere, por tanto, un modelo funcional continuo $z=f(x)$ del terreno que permita aplicar el cálculo integral con datos reales del territorio asignado.
+
+% ---------------- 3. PREGUNTA ----------------
+\section{Pregunta de investigaci\'on}
+¿Cuál es el área de sección transversal del relieve, $A=\int_a^b f(x)\,dx$, a lo largo de un transecto oeste–este de la ventana de estudio de la zona norte del cantón Loja, y en qué medida la aproximación mediante sumas de Riemann con los 20 puntos observados coincide con el valor obtenido por el Teorema Fundamental del Cálculo a partir de un modelo continuo $z=f(x)$ de la elevación ALOS?
+% ---------------- 4. HIPOTESIS ----------------
+\section{Hip\'otesis}
+El perfil de elevación del transecto de la fila 152 (coordenada local $y=5\,500$~m), que conecta una cuenca baja con la cumbre de la ventana, puede representarse con una función continua $f(x)$, polinómica o spline, con un coeficiente de determinación $R^2\ge0{,}90$ sobre los 20 puntos $(x,z)$. Se conjetura que el área acumulada $A(x)=\int_0^x f(t)\,dt$ crece de forma monótona, porque $f(x)>0$ en todo el transecto, y que el valor de $A=\int_0^{9500} f(x)\,dx$ difiere en menos del 5\,\% de la suma de Riemann (trapezoidal) calculada con las mismas 20 elevaciones observadas, con un cambio neto de elevación positivo en el sentido oeste–este entre la cuenca baja y la cumbre.
+% ---------------- 5. OBJETIVOS ----------------
+\section{Objetivos}
+\subsection{Objetivo general}
+Calcular el área de sección transversal del relieve de un transecto oeste–este de la ventana norte del cantón Loja, mediante un modelo funcional continuo $z=f(x)$ ajustado a la elevación media ALOS, y comparar el resultado con las sumas de Riemann y con el Teorema Fundamental del Cálculo.
+\subsection{Objetivos espec\'ificos}
+\begin{enumerate}
+  \item Seleccionar el transecto de la fila 152 (\texttt{y\_local\_m} = 5\,500~m) y construir los 20 pares $(x,z)$ con \texttt{x\_local\_m} y \texttt{alos\_elevacion\_m\_mean}, verificando la cobertura de datos (\texttt{alos\_elevacion\_m\_coverage}) y el desnivel entre la cuenca baja y la cumbre.
+  \item Ajustar un modelo continuo $z=f(x)$ al perfil y evaluar su calidad con $R^2\ge0{,}90$ y el error cuadrático medio, con unidades en metros.
+  \item Calcular $A=\int_a^b f(x)\,dx$ en m$^2$ y compararla con las sumas de Riemann (izquierda, derecha, punto medio y trapezoidal) de los 20 puntos, reportando la diferencia relativa en porcentaje.
+  
+
+\end{enumerate}
+% ---------------- REFERENCIAS ----------------
+\printbibliography[title={Referencias}]
+
+
+% ---------------- ANEXO ----------------
+\appendix
+\section{Uso de inteligencia artificial}
+Declare para qu\'e se us\'o, qu\'e se verific\'o y qu\'e parte fue reescrita por el equipo.
+
+\end{document}
